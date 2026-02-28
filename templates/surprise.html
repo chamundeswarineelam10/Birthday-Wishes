@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>❤️ Happy Birthday Bujji ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #ff9a9e, #fecfef);
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            text-align: center;
+        }
+
+        /* Background Photos & Hearts */
+        .background-items img, .background-items .heart {
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .background-items img {
+            width: 120px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 15px;
+            filter: drop-shadow(0 0 15px rgba(255,105,180,0.7));
+        }
+
+        .background-items .heart {
+            width: 25px;
+            height: 25px;
+            background-color: red;
+            transform: rotate(-45deg);
+            border-radius: 5px;
+            filter: drop-shadow(0 0 10px rgba(255,105,180,0.8));
+        }
+
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: red;
+            border-radius: 50%;
+        }
+        .heart::before { top: -12.5px; left: 0; }
+        .heart::after { top: 0; left: 12.5px; }
+
+        /* Centered Content */
+        .content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #8B008B;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background-color: rgba(255,255,255,0.3);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            color: #4B0082;
+            font-size: 18px;
+            line-height: 1.8;
+            text-align: left;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 30px;
+            background: #ff4b7d;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            background: #ff1e5a;
+        }
+
+        .big-heart {
+            font-size: 80px;
+            display: none;
+            animation: heartbeat 1.2s infinite;
+            margin-top: 20px;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.3); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="background-items" id="backgroundItems"></div>
+
+    <div class="content">
+        <button id="playBtn">💖 Click Here My Love 💖</button>
+        <h1>💖 A Special Wish For You Nanna 💖</h1>
+        <div class="card">
+            <p id="message"></p>
+        </div>
+        <div class="big-heart" id="bigHeart">❤️</div>
+    </div>
+
+    <audio id="bgMusic" loop preload="auto">
+        <source src="{{ url_for('static', filename='adbhutam.mp3.mpeg') }}" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const photos = [
+            "{{ url_for('static', filename='photo1.jpeg') }}",
+            "{{ url_for('static', filename='photo2.jpeg') }}",
+            "{{ url_for('static', filename='photo3.jpeg') }}",
+            "{{ url_for('static', filename='photo4.jpeg') }}",
+            "{{ url_for('static', filename='photo6.jpeg') }}"
+        ];
+
+        const text = `Happy Birthday to my everything 💕
+To my best friend, my bestie, my boyfriend, my love, and my future husband… you are not just one role in my life, you are my whole world 🌎❤️
+You are the person who makes me laugh when I’m sad, who supports me when I’m weak, who listens patiently to my silly talks, and who loves me in the purest way. With you, every moment feels special, safe, and filled with happiness 🥰
+I’m so lucky to have a man who is my friend, my partner, my comfort, and my forever. I pray that this year brings you success, peace, good health, and everything your heart desires.
+Thank you for being my today and my forever 💕
+I promise to stand by you, celebrate you, and love you more with every passing day 💖
+Happy Birthday, my love 🎂
+Your future wife already loves you endlessly 💍❤️✨`;
+
+        let index = 0;
+        const speed = 40;
+
+        function typeWriter() {
+            if(index < text.length){
+                document.getElementById("message").innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typeWriter, speed);
+            } else {
+                document.getElementById("bigHeart").style.display = "block";
+            }
+        }
+
+        document.getElementById("playBtn").addEventListener("click", async function() {
+            const music = document.getElementById("bgMusic");
+            try { music.volume = 0.8; await music.play(); }
+            catch(e){ alert("Click once more to start music 💕"); }
+
+            this.remove();
+            typeWriter();
+            startBackgroundBlink();
+        });
+
+        function startBackgroundBlink(){
+            const container = document.getElementById("backgroundItems");
+            const totalItems = 60; // more items for full screen
+
+            for(let i=0;i<totalItems;i++){
+                if(Math.random()<0.7){ // photos
+                    const img = document.createElement("img");
+                    img.src = photos[Math.floor(Math.random()*photos.length)];
+                    img.style.width = (90 + Math.random()*60)+"px";
+                    img.style.height = (120 + Math.random()*80)+"px";
+                    img.style.left = Math.random() * (window.innerWidth - 100) + "px";
+                    img.style.top = Math.random() * (window.innerHeight - 150) + "px";
+                    container.appendChild(img);
+                } else { // hearts
+                    const heart = document.createElement("div");
+                    heart.classList.add("heart");
+                    heart.style.left = Math.random() * (window.innerWidth - 25) + "px";
+                    heart.style.top = Math.random() * (window.innerHeight - 25) + "px";
+                    container.appendChild(heart);
+                }
+            }
+
+            // blinking multiple items at once
+            setInterval(()=>{
+                const items = container.children;
+                const numToBlink = Math.floor(items.length * 0.1); // 10% of items blink at once
+                for(let i=0;i<numToBlink;i++){
+                    const item = items[Math.floor(Math.random()*items.length)];
+                    item.style.opacity = item.style.opacity=="1" ? "0" : "1";
+                }
+            }, 400);
+        }
+
+    </script>
+</body>
+</html>

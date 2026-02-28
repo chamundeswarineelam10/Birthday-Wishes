@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>💕 Enter Your Special Date 💖</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+
+        .box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            border: none;
+            width: 80px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 25px;
+            border-radius: 20px;
+            border: none;
+            background: #ff1e5a;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        .error {
+            margin-top: 15px;
+            color: yellow;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>💕 Enter Your Special Date 💕</h2>
+
+    <form method="POST">
+        <input type="text" name="day" placeholder="DD" required>
+        <input type="text" name="month" placeholder="MM" required>
+        <input type="text" name="year" placeholder="YYYY" required>
+        <br>
+        <button type="submit">Unlock My Heart ❤️</button>
+    </form>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+</div>
+
+</body>
+</html>
